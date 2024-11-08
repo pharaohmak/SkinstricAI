@@ -1,101 +1,272 @@
-import Image from "next/image";
+"use client";
+import Link from "next/link";
+import Header from "./components/Header";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import Button from "./components/Button";
+import dynamic from "next/dynamic";
+
+/* Preloader Component Imported */
+const Preloader = dynamic(() => import("./components/Preloader"), {
+  ssr: false,
+});
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const beginRef = useRef(null);
+  const [loading, setLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  /* Page Loading */
+  useEffect(() => {
+    const handlePageLoad = () => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 7000);
+    };
+
+    window.addEventListener("load", handlePageLoad);
+
+    return () => window.addEventListener("load", handlePageLoad);
+  }, []);
+
+  /* Showing Behavior */
+  useEffect(() => {
+    const preloaderShow = sessionStorage.getItem("preloaderShown");
+    if (!preloaderShow) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem("preloaderShown", "true");
+      }, 7000);
+      return () => clearTimeout(timer);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  /* Page Animations */
+  useEffect(() => {
+    if (!loading) {
+      gsap.fromTo(
+        ".index__title--wrapper",
+        { y: 200 },
+        { y: 0, duration: 1.5, ease: "power4.out" }
+      );
+      gsap.fromTo(
+        ".image__content",
+        {
+          opacity: 0,
+          delay: .2
+        },
+        {
+          opacity: 1,
+          delay: .2
+        }
+      );
+      gsap.fromTo(
+        ".btn__wrapper",
+        { x: -20, opacity: 0, ease: "power2.out" },
+        { x: 0, opacity: 1 }
+      );
+      gsap.fromTo(
+        ".dotted__square--link-wrapper",
+        { x: 50, opacity: 0, ease: "power2.out" },
+        { x: 20, opacity: 1 }
+      );
+      gsap.fromTo("#square", { opacity: 0 }, { opacity: 1, duration: 1 });
+      gsap.fromTo(
+        ".experience__btn--wrapper",
+        { opacity: 0 },
+        { opacity: 1, delay: 0.5 }
+      );
+    }
+  }, [loading]);
+
+  /* Animations In on Hover Btn */
+  function handleAnimationsIn() {
+    const titleElement = document.querySelector(".index__title--wrapper");
+    const titleRect = titleElement.getBoundingClientRect();
+    const translateX = titleRect.left * 0.95;
+    beginRef.current.classList.add("begin__btn");
+
+    gsap.to(".index__title--wrapper", {
+      x: -translateX,
+      duration: 0.7,
+      ease: "power2.out",
+    });
+
+    gsap.to(".bottom__title", {
+      x: "-30%",
+      ease: "power2.out",
+      duration: 1,
+    });
+
+    gsap.to(".index__left--link-wrapper", {
+      x: "-100vw",
+      ease: "power2.out",
+    });
+  }
+
+  /* Animations Out on Hover Btn */
+  function handleAnimationsOut() {
+    beginRef.current.classList.remove("begin__btn");
+    gsap.to(".index__title--wrapper", {
+      x: 0,
+      duration: 0.7,
+    });
+
+    gsap.to(".bottom__title", {
+      x: "0%",
+      ease: "power2.out",
+      duration: 1,
+    });
+
+    gsap.to(".index__left--link-wrapper", {
+      x: "0",
+      ease: "power2.out",
+    });
+  }
+
+  /* loading = Preloader | !loading = <div id="__next">... */
+  if (loading) {
+    return (
+      <Suspense fallback={<div></div>}>
+        <Preloader />
+      </Suspense>
+    );
+  }
+
+  return (
+    <>
+      <div id="__next">
+        <Header />
+        <main className="main">
+          <div className="page">
+            <div className="index__content">
+              <div className="index__title--container">
+                <div className="index__title--wrapper">
+                  <h1 className="index__title">
+                    <span>Sophisticated</span>
+                    <br />
+                    <span className="bottom__title">Skincare</span>
+                  </h1>
+                </div>
+                <div className="experience__btn--wrapper">
+                  <Link href={"/introduction"}>
+                    <Button
+                      label={"ENTER EXPERIENCE"}
+                      arrow={"right"}
+                      order={"label-first"}
+                      main={true}
+                    />
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="index__left--link-wrapper">
+              <span id="square" className="dotted__square"></span>
+              <div className="dotted__square--link-wrapper">
+                <button disabled>
+                  <span className="btn__icon">
+                    <span className="btn__icon--inner">
+                      <svg
+                        width="8"
+                        height="8"
+                        viewBox="0 0 11 12"
+                        fill="#1A1B1C"
+                        xmlns="http://www.w3.org/2000/svg"
+                        role="img"
+                        className="svg__btn"
+                      >
+                        <path
+                          d="m.714 6 9.429 5.444V.556L.714 6Z"
+                          fill="current"
+                        ></path>
+                      </svg>
+                    </span>
+                  </span>
+                  <span className="icon__btn--text font-roobert">
+                    CLINICAL RESEARCH
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div ref={beginRef} className="index__right--link-wrapper">
+              <span id="square" className="dotted__square2"></span>
+              <div className="dotted__square--link-wrapper2">
+                <Link
+                  onMouseEnter={handleAnimationsIn}
+                  onMouseLeave={handleAnimationsOut}
+                  href={"/introduction"}
+                  className="dotted__square--link"
+                >
+                  <Button
+                    label={"LET'S BEGIN"}
+                    arrow={"right"}
+                    order={"label-first"}
+                  />
+                </Link>
+              </div>
+            </div>
+            <div className="bottom__grid--container">
+              <p className="bottom__text font-roobert">
+                Premium Custom Skincare For
+                <br />
+                Faces With Sophisticated Needs
+              </p>
+
+              <p className="bottom__text opacity-[0.7]">
+                Proprietary Algorithms For
+                <br />
+                Effective Formula Design
+              </p>
+
+              <p className="bottom__text opacity-[0.7]">
+                Complete Control over
+                <br />
+                Skincare ingredients
+              </p>
+              <p className="bottom__text opacity-[0.7]">
+                Expert clinical
+                <br />
+                diagnostics + guidance
+              </p>
+              <p className="bottom__text opacity-[0.7]">
+                Fully Customizable
+                <br />
+                from Scratch
+              </p>
+              <p className="bottom__text opacity-[0.7]">
+                FDA / TGA Approved
+                <br />
+                Compound Pharmacies
+              </p>
+              <p className="bottom__text opacity-[0.7]">
+                Highly Personalized
+                <br />
+                Experience
+              </p>
+            </div>
+          </div>
+          <div className="background__overlay">
+            <div className="background__wrapper">
+              <video
+                className="video__content"
+                preload="auto"
+                muted
+                autoPlay
+                loop
+              >
+                <source
+                  muted
+                  src="bubble-animation.mp4"
+                  type="video/mp4"
+                ></source>
+              </video>
+              <img className="image__content  opacity-0" alt="bubble-bg" src="bubble-bg.avif" />
+            </div>
+          </div>
+          <div className="glassy__container"></div>
+        </main>
+      </div>
+    </>
   );
 }
