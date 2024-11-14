@@ -49,7 +49,7 @@ const Introduction: React.FC = () => {
   const inputGoogleRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const LoadGoogleMapsApi = () => useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_PLACES_API_KEY,
+    googleMapsApiKey: "AIzaSyCEp9gXJuEtRCdoAuqSu2gIpD032T8oaaI",
     libraries: ["places"]
   });
 
