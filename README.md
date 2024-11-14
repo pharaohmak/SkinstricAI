@@ -1,37 +1,23 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skinstric AI Website Redevelopment
 
-## Getting Started
+Welcome to the Skinstric AI website redevelopment project! This project was a collaborative effort focused on creating a high-performance, modern, and visually engaging website for Skinstric AI. Leveraging an advanced tech stack and innovative animations, we were able to deliver an exceptional user experience that aligns with Skinstric AI's brand identity.
 
-First, run the development server:
+## Project Highlights
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **High-Performance Development:** Achieved a Lighthouse performance score of **96**, ensuring optimized load times, responsiveness, and a smooth user experience.
+- **Innovative Animations:** Integrated dynamic animations using **Lottie**, **GSAP**, and **Three.js** for an immersive and engaging user experience.
+- **Modern Tech Stack:** Employed **Next.js** and **TailwindCSS** to develop a responsive and scalable website architecture with a sleek, modern design.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js** - For server-side rendering and seamless page navigation.
+- **TailwindCSS** - For utility-first, responsive styling.
+- **Lottie** - For lightweight, scalable animations.
+- **GSAP** - For advanced, high-performance animations.
+- **Three.js** - For 3D graphics and interactive visual elements.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# SkinstricAI
+- **Optimized Performance:** Every aspect of the site is optimized to ensure minimal load times and excellent responsiveness.
+- **Engaging User Experience:** Animated elements bring interactivity and life to the website, enhancing user engagement.
+- **Responsive Design:** Built to look great on all devices, with a design that adapts seamlessly from desktops to mobile screens.
