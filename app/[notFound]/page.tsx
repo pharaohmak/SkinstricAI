@@ -1,10 +1,11 @@
 "use client";
+
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import gsap from "gsap";
 import Header from "../components/Header";
 
-export default function NotFound() {
+const NotFound: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
@@ -12,30 +13,30 @@ export default function NotFound() {
             ".notFound",
             {
                 opacity: 0,
-                delay: 0.5,
                 y: -20,
             },
             {
                 opacity: 1,
-                delay: 0.5,
                 y: 20,
+                delay: 0.5,
             }
         );
+
         const redirectTimer = setTimeout(() => {
             router.push("/");
-        }, 3000); // Redirect after 2 seconds
+        }, 3000); // Redirect after 3 seconds
 
         return () => clearTimeout(redirectTimer);
-    }, []);
+    }, [router]);
 
     return (
         <>
-            <Header />
+            <Header btnOn={true} />
             <div className="fixed notFound opacity-0 flex justify-center items-center w-full h-[100vh] flex-col">
                 <img
                     alt="notFound"
                     src="preffered-cross.svg"
-                    className=" opacity-90 mb-3"
+                    className="opacity-90 mb-3"
                 />
                 <h1
                     style={{ fontSize: "clamp(40px, 2px + 6.5625vw, 70px)" }}
@@ -53,4 +54,6 @@ export default function NotFound() {
             </div>
         </>
     );
-}
+};
+
+export default NotFound;

@@ -1,16 +1,19 @@
 "use client";
+
 import gsap from "gsap";
 import React, { useEffect, useRef } from "react";
 
-export default function Preloader() {
-    const preloaderRef = useRef(null);
-    const preloaderMaskRef = useRef(null);
+const Preloader: React.FC = () => {
+    const preloaderRef = useRef<HTMLDivElement | null>(null);
+    const preloaderMaskRef = useRef<HTMLDivElement | null>(null);
 
     /* Preloader Animations */
     useEffect(() => {
         const timeout = setTimeout(() => {
-            preloaderRef.current.classList.add("preloader__animated");
-            preloaderMaskRef.current.classList.add("preloader__animated");
+            if (preloaderRef.current && preloaderMaskRef.current) {
+                preloaderRef.current.classList.add("preloader__animated");
+                preloaderMaskRef.current.classList.add("preloader__animated");
+            }
         }, 1000);
 
         const hideTimeout = setTimeout(() => {
@@ -26,6 +29,7 @@ export default function Preloader() {
                 y: -50,
             });
         }, 5000);
+
         return () => {
             clearTimeout(timeout);
             clearTimeout(hideTimeout);
@@ -62,4 +66,6 @@ export default function Preloader() {
             </div>
         </div>
     );
-}
+};
+
+export default Preloader;

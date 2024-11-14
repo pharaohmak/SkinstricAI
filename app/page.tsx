@@ -11,8 +11,8 @@ const Preloader = dynamic(() => import("./components/Preloader"), {
   ssr: false,
 });
 
-export default function Home() {
-  const beginRef = useRef(null);
+export default function Home(): JSX.Element {
+  const beginRef = useRef<HTMLButtonElement>(null);
   const [loading, setLoading] = useState(true);
 
   /* Page Loading */
@@ -25,7 +25,7 @@ export default function Home() {
 
     window.addEventListener("load", handlePageLoad);
 
-    return () => window.addEventListener("load", handlePageLoad);
+    return () => window.removeEventListener("load", handlePageLoad);
   }, []);
 
   /* Showing Behavior */
@@ -52,14 +52,8 @@ export default function Home() {
       );
       gsap.fromTo(
         ".image__content",
-        {
-          opacity: 0,
-          delay: .2
-        },
-        {
-          opacity: 1,
-          delay: .2
-        }
+        { opacity: 0, delay: 0.2 },
+        { opacity: 1, delay: 0.2 }
       );
       gsap.fromTo(
         ".btn__wrapper",
@@ -83,31 +77,33 @@ export default function Home() {
   /* Animations In on Hover Btn */
   function handleAnimationsIn() {
     const titleElement = document.querySelector(".index__title--wrapper");
-    const titleRect = titleElement.getBoundingClientRect();
-    const translateX = titleRect.left * 0.95;
-    beginRef.current.classList.add("begin__btn");
+    if (titleElement) {
+      const titleRect = titleElement.getBoundingClientRect();
+      const translateX = titleRect.left * 0.95;
+      beginRef.current?.classList.add("begin__btn");
 
-    gsap.to(".index__title--wrapper", {
-      x: -translateX,
-      duration: 0.7,
-      ease: "power2.out",
-    });
+      gsap.to(".index__title--wrapper", {
+        x: -translateX,
+        duration: 0.7,
+        ease: "power2.out",
+      });
 
-    gsap.to(".bottom__title", {
-      x: "-30%",
-      ease: "power2.out",
-      duration: 1,
-    });
+      gsap.to(".bottom__title", {
+        x: "-30%",
+        ease: "power2.out",
+        duration: 1,
+      });
 
-    gsap.to(".index__left--link-wrapper", {
-      x: "-100vw",
-      ease: "power2.out",
-    });
+      gsap.to(".index__left--link-wrapper", {
+        x: "-100vw",
+        ease: "power2.out",
+      });
+    }
   }
 
   /* Animations Out on Hover Btn */
   function handleAnimationsOut() {
-    beginRef.current.classList.remove("begin__btn");
+    beginRef.current?.classList.remove("begin__btn");
     gsap.to(".index__title--wrapper", {
       x: 0,
       duration: 0.7,
@@ -133,11 +129,10 @@ export default function Home() {
       </Suspense>
     );
   }
-
   return (
     <>
       <div id="__next">
-        <Header />
+        <Header btnOn={true} />
         <main className="main">
           <div className="page">
             <div className="index__content">
@@ -150,11 +145,11 @@ export default function Home() {
                   </h1>
                 </div>
                 <div className="experience__btn--wrapper">
-                  <Link href={"/introduction"}>
+                  <Link href="/introduction">
                     <Button
-                      label={"ENTER EXPERIENCE"}
-                      arrow={"right"}
-                      order={"label-first"}
+                      label="ENTER EXPERIENCE"
+                      arrow="right"
+                      order="label-first"
                       main={true}
                     />
                   </Link>
@@ -189,20 +184,16 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <div ref={beginRef} className="index__right--link-wrapper">
+            <div className="index__right--link-wrapper">
               <span id="square" className="dotted__square2"></span>
               <div className="dotted__square--link-wrapper2">
                 <Link
                   onMouseEnter={handleAnimationsIn}
                   onMouseLeave={handleAnimationsOut}
-                  href={"/introduction"}
+                  href="/introduction"
                   className="dotted__square--link"
                 >
-                  <Button
-                    label={"LET'S BEGIN"}
-                    arrow={"right"}
-                    order={"label-first"}
-                  />
+                  <Button label="LET'S BEGIN" arrow="right" order="label-first" />
                 </Link>
               </div>
             </div>
@@ -255,13 +246,9 @@ export default function Home() {
                 autoPlay
                 loop
               >
-                <source
-                  muted
-                  src="bubble-animation.mp4"
-                  type="video/mp4"
-                ></source>
+                <source src="bubble-animation.mp4" type="video/mp4" />
               </video>
-              <img className="image__content  opacity-0" alt="bubble-bg" src="bubble-bg.avif" />
+              <img className="image__content opacity-0" alt="bubble-bg" src="bubble-bg.avif" />
             </div>
           </div>
           <div className="glassy__container"></div>

@@ -3,14 +3,15 @@
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 
-export default function Blackbox() {
-    const boxRef = useRef(null);
+const Blackbox: React.FC = () => {
+    const boxRef = useRef<HTMLDivElement | null>(null);
     const [blackBox, setBlackBox] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
             setBlackBox(true);
         }, 1000);
+        return () => clearTimeout(timeout);
     }, []);
 
     /* Blackbox initial Animations */
@@ -36,21 +37,23 @@ export default function Blackbox() {
     }, [blackBox]);
 
     /* Blackbox onClick Animations */
-    function handleBtn() {
-        gsap.to(boxRef.current, {
-            height: "1px",
-            duration: 0.6,
-            ease: "power2.out",
-            onComplete: () => {
-                gsap.to(boxRef.current, {
-                    width: "0px",
-                    duration: 0.6,
-                    ease: "power2.out",
-                    onComplete: () => setBlackBox(false),
-                });
-            },
-        });
-    }
+    const handleBtn = () => {
+        if (boxRef.current) {
+            gsap.to(boxRef.current, {
+                height: "1px",
+                duration: 0.6,
+                ease: "power2.out",
+                onComplete: () => {
+                    gsap.to(boxRef.current, {
+                        width: "0px",
+                        duration: 0.6,
+                        ease: "power2.out",
+                        onComplete: () => setBlackBox(false),
+                    });
+                },
+            });
+        }
+    };
 
     return (
         <>
@@ -76,4 +79,6 @@ export default function Blackbox() {
             )}
         </>
     );
-}
+};
+
+export default Blackbox;

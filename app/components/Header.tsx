@@ -4,7 +4,11 @@ import gsap from "gsap";
 import Link from "next/link";
 import { useEffect } from "react";
 
-export default function Header({ btnOn }) {
+interface HeaderProps {
+    btnOn: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ btnOn }) => {
     /* Header Link Animation */
     useEffect(() => {
         gsap.fromTo(
@@ -39,4 +43,6 @@ export default function Header({ btnOn }) {
             )}
         </header>
     );
-}
+};
+
+export default Header;

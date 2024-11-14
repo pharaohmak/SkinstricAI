@@ -1,5 +1,13 @@
-export default function Button({ label, arrow, order, main }) {
+import React from "react";
 
+interface ButtonProps {
+    label: string;
+    arrow?: "left" | "right";
+    order?: "label-first" | "icon-first";
+    main?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({ label, arrow, order, main }) => {
     return (
         <div className="btn__wrapper inline-flex items-center justify-center leading-[1.6] tracking-[-.02em]">
             <span
@@ -8,10 +16,11 @@ export default function Button({ label, arrow, order, main }) {
                     opacity: ".7",
                     order: order === "label-first" ? 1 : 2,
                 }}
-                className={`font-roobert ${order === "label-first"
+                className={`font-roobert ${
+                    order === "label-first"
                         ? "btn__text pr-[18px]"
                         : "btn__text--opposite pl-[18px]"
-                    }`}
+                }`}
             >
                 {label}
             </span>
@@ -26,7 +35,7 @@ export default function Button({ label, arrow, order, main }) {
                     className="icon__btn--content"
                 >
                     <svg
-                        className={`${arrow === "left" && "icon__btn--reverse"} btn__svg`}
+                        className={`${arrow === "left" ? "icon__btn--reverse" : ""} btn__svg`}
                         width="8"
                         height="8"
                         viewBox="0 0 11 12"
@@ -40,10 +49,12 @@ export default function Button({ label, arrow, order, main }) {
                             width: main ? "6px" : "8px",
                         }}
                     >
-                        <path d="m.714 6 9.429 5.444V.556L.714 6Z" fill="current"></path>
+                        <path d="m.714 6 9.429 5.444V.556L.714 6Z" fill="currentColor"></path>
                     </svg>
                 </span>
             </span>
         </div>
     );
-}
+};
+
+export default Button;

@@ -1,31 +1,35 @@
-"use client";
+"use client"
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Header from "../components/Header";
 import Link from "next/link";
 import gsap from "gsap";
 import Button from "../components/Button";
-// import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
+import { useJsApiLoader, Autocomplete} from "@react-google-maps/api";
 import Blackbox from "../components/Blackbox";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
-/* Google API libraries variable */
-const libraries = ["places"];
+interface LatLng {
+  lat: number | null;
+  lng: number | null;
+}
 
-export default function Introduction() {
-  const [showLabel, setShowLabel] = useState(true);
-  const [labelText, setLabelText] = useState(1);
-  const [proceed, setProceed] = useState(false);
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [latLng, setLatLng] = useState({ lat: null, lng: null });
-  const [phase1, setPhase1] = useState(true);
-  const [phase2, setPhase2] = useState(false);
-  const [nameLength, setNameLength] = useState(false);
-  const [locationLength, setLocationLength] = useState(false);
-  const [bottomText, setBottomText] = useState("");
+const Introduction: React.FC = () => {
+  const [showLabel, setShowLabel] = useState<boolean>(true);
+  const [labelText, setLabelText] = useState<number>(1);
+  const [proceed, setProceed] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [latLng, setLatLng] = useState<LatLng>({ lat: null, lng: null });
+  const [phase1, setPhase1] = useState<boolean>(true);
+  const [, setPhase2] = useState<boolean>(false);
+  const [nameLength, setNameLength] = useState<boolean>(false);
+  const [locationLength, setLocationLength] = useState<boolean>(false);
+  const [bottomText, setBottomText] = useState<string>("");
   const router = useRouter();
+
   const infoArr = useMemo(
     () => ({
       name: name,
@@ -35,49 +39,46 @@ export default function Introduction() {
     [name, location, latLng]
   );
 
-  const inputRef = useRef("");
-  const labelRef = useRef(null);
-  const titleRef = useRef(null);
-  const formRef = useRef(null);
-  const labelTextRef = useRef(null);
-  const backRef = useRef(null);
-  const proceedRef = useRef(null);
-  const inputGoogleRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const labelRef = useRef<HTMLLabelElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const labelTextRef = useRef<HTMLDivElement | null>(null);
+  const backRef = useRef<HTMLAnchorElement | null>(null);
+  const proceedRef = useRef<HTMLAnchorElement | null>(null);
+  const inputGoogleRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-  /* Google API Data */
-//   const { isLoaded } = useJsApiLoader({
-//     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_PLACES_API_KEY,
-//     libraries,
-//   });
+  const LoadGoogleMapsApi = () => useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_PLACES_API_KEY,
+    libraries: ["places"]
+  });
 
-  /* Back Btn Behavior */
-  function handleBack() {
+  const { isLoaded } = LoadGoogleMapsApi();
+
+  const handleBack = () => {
     setPhase1(true);
     setShowLabel(false);
     setProceed(true);
-  }
+  };
 
-  /* Proceed Btn Behavior */
-  function handleProceed() {
+  const handleProceed = () => {
     setShowLabel(true);
     setPhase2(true);
     setProceed(false);
     setPhase1(false);
-  }
+  };
 
   useEffect(() => {
     console.log(infoArr, name);
   }, [infoArr]);
 
-  /* Name Input Event */
-  function handleName(event) {
+  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value || "");
     setNameLength(event.target.value.length > 0);
     setProceed(event.target.value.length > 0);
-  }
+  };
 
-  /* Name Input 'Enter' Functionality */
-  function handleNameKeyDown(event) {
+  const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
       if (!nameLength) {
@@ -92,16 +93,14 @@ export default function Introduction() {
       setProceed(false);
       setPhase1(false);
     }
-  }
+  };
 
-  /* Location Input Event */
-  function handleLocation(event) {
+  const handleLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(event.target.value || "");
     setLocationLength(event.target.value.length > 0);
-  }
+  };
 
-  /* Location Input 'Enter' Error Handling */
-  function handleLocationKeyDown(event) {
+  const handleLocationKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       if (!locationLength) {
         setBottomText("Type your location above to proceed");
@@ -119,10 +118,9 @@ export default function Introduction() {
         });
       }
     }
-  }
+  };
 
-  /* OnBlur and OnFocus Input Behavior */
-  function handleInputAnimations(elem) {
+  const handleInputAnimations = (elem: number) => {
     if (elem === 2) {
       setLabelText(2);
       setShowLabel(false);
@@ -130,29 +128,29 @@ export default function Introduction() {
       setShowLabel(true);
       setLabelText(1);
     }
-  }
-
-  /* Google API Place Selection Function */
+  };
   const handlePlaceChanged = () => {
     setBottomText("");
     localStorage.setItem("name", name);
+
     if (inputGoogleRef.current) {
       const place = inputGoogleRef.current.getPlace();
-      if (place && place.geometry) {
-        setLocation(place.formatted_address);
+
+      if (place && place.geometry && place.geometry.location) {
+        setLocation(place.formatted_address ?? ""); // Fallback to an empty string if undefined
         setLatLng({
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
+          lat: place.geometry.location.lat() ?? 0, // Fallback to 0 if undefined
+          lng: place.geometry.location.lng() ?? 0, // Fallback to 0 if undefined
         });
+
         setTimeout(() => {
           gsap.fromTo(
             ".introduction",
-            {
-              opacity: 1,
-            },
+            { opacity: 1 },
             { opacity: 0 }
           );
         }, 800);
+
         setTimeout(() => {
           router.push("/welcome");
         }, 1600);
@@ -160,7 +158,6 @@ export default function Introduction() {
     }
   };
 
-  /* Introduction Page Animations */
   useEffect(() => {
     const tl = gsap.timeline({
       defaults: { ease: "power4.out", duration: 1 },
@@ -204,7 +201,9 @@ export default function Introduction() {
 
   return (
     <div className="flex introduction flex-auto flex-col h-[100vh]">
-      <Header className="pl-[32px]" />
+      <div className="pl-[32px]">
+        <Header btnOn={true} />
+      </div>
       <main className="relative flex flex-auto flex-col">
         <div className="overflow-clip flex flex-auto flex-col pb-[36px] relative ml-auto mr-auto px-[32px] w-full">
           <div
@@ -241,19 +240,14 @@ export default function Introduction() {
               {labelText === 1
                 ? "CLICK TO TYPE"
                 : phase1
-                ? "INTRODUCE YOURSELF"
-                : "WHERE ARE YOU FROM?"}
+                  ? "INTRODUCE YOURSELF"
+                  : "WHERE ARE YOU FROM?"}
             </div>
             {phase1 ? (
-              <form
-                onKeyDown={handleNameKeyDown}
-                ref={formRef}
-                style={{
-                  clipPath: "inset(0%)",
-                }}
-              >
+              <form ref={formRef} style={{ clipPath: "inset(0%)" }}>
                 <div className="relative">
                   <input
+                    onKeyDown={handleNameKeyDown} // Attach the onKeyDown to the input
                     style={{
                       width: "calc((18ch - 5.5ch))",
                       fontSize: "clamp(44px, 12px + 2.5vw, 60px)",
@@ -265,28 +259,23 @@ export default function Introduction() {
                     ref={inputRef}
                     className="border-b-[1px] bg-transparent border-[#1a1b1c] py-[5px] text-center outline-none text-[#1a1b1c] border-solid leading-[1] tracking-[-.07em]"
                     type="text"
-                  ></input>
-
+                  />
                   <label
                     ref={labelRef}
                     style={{
                       width: `calc((18ch - 5.5ch))`,
                       fontSize: "clamp(44px, 12px + 2.5vw, 60px)",
                     }}
-                    className={`text-[#1a1b1c] ${
-                      showLabel && !nameLength ? "opacity-[1]" : "opacity-[0]"
-                    } text-center leading-[1.33] left-0 top-[5px] absolute name-label pointer-events-none tracking-[-.07em]`}
+                    className={`text-[#1a1b1c] ${showLabel && !nameLength ? "opacity-[1]" : "opacity-[0]"} text-center leading-[1.33] left-0 top-[5px] absolute name-label pointer-events-none tracking-[-.07em]`}
                   >
                     Introduce yourself
                   </label>
-
                   <div
                     style={{
-                      fontSize:
-                        "clamp(10px, 5.4285714286px + .4464285714vw, 14px)",
+                      fontSize: "clamp(10px, 5.4285714286px + .4464285714vw, 14px)",
                     }}
-                    className="min-h-[1.2em] mt-[.6em] leading-[1.2] tracking-[0] "
-                  ></div>
+                    className="min-h-[1.2em] mt-[.6em] leading-[1.2] tracking-[0]"
+                  />
                 </div>
               </form>
             ) : (
@@ -326,9 +315,8 @@ export default function Introduction() {
                     width: `calc((21ch - 5.5ch))`,
                     fontSize: "clamp(44px, 12px + 2.5vw, 60px)",
                   }}
-                  className={`text-[#1a1b1c] ${
-                    showLabel && !locationLength ? "opacity-[1]" : "opacity-[0]"
-                  } text-center leading-[1.33] left-0 top-[5px] name-label absolute pointer-events-none tracking-[-.07em]`}
+                  className={`text-[#1a1b1c] ${showLabel && !locationLength ? "opacity-[1]" : "opacity-[0]"
+                    } text-center leading-[1.33] left-0 top-[5px] name-label absolute pointer-events-none tracking-[-.07em]`}
                 >
                   Where are you from?
                 </label>
@@ -377,7 +365,7 @@ export default function Introduction() {
           </div>
         </div>
       </main>
-      {/* <ToastContainer
+      <ToastContainer
         className={"toast__container"}
         position="top-right"
         autoClose={5000}
@@ -389,8 +377,10 @@ export default function Introduction() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      ></ToastContainer> */}
+      ></ToastContainer>
       <Blackbox />
     </div>
   );
-}
+};
+
+export default Introduction;

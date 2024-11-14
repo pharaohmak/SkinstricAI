@@ -5,8 +5,12 @@ export const metadata = {
     metadataBase: new URL("https://next-learn-dashboard.vercel.sh"),
 };
 
+interface RootLayoutProps {
+    children: React.ReactNode;
+  }
+  
 /* Welcome Page Layout */
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: RootLayoutProps): JSX.Element {    
     return (
         <html lang="en">
             <head>
