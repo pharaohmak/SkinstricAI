@@ -1,6 +1,6 @@
-# Skinstric AI Website Redevelopment
+# Skinstric AI
 
-Welcome to the Skinstric AI website redevelopment project! This project was a collaborative effort focused on creating a high-performance, modern, and visually engaging website for Skinstric AI. Leveraging an advanced tech stack and innovative animations, we were able to deliver an exceptional user experience that aligns with Skinstric AI's brand identity.
+This project was a collaborative effort focused on creating a high-performance, modern, and visually engaging website for Skinstric AI. Leveraging an advanced tech stack and innovative animations, we were able to deliver an exceptional user experience that aligns with Skinstric AI's brand identity.
 
 ## Project Highlights
 
