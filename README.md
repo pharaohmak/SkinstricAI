@@ -1,23 +1,36 @@
-# Skinstric AI
+# 💎 Skinstric AI
 
-This project was a collaborative effort focused on creating a high-performance, modern, and visually engaging website for Skinstric AI. Leveraging an advanced tech stack and innovative animations, we were able to deliver an exceptional user experience that aligns with Skinstric AI's brand identity.
+**Skinstric AI** is a high-performance, visually captivating website built to represent the innovative identity of a next-generation skincare technology brand. Developed collaboratively, this project combines cutting-edge frameworks and animation tools to deliver an immersive, interactive user experience.
 
-## Project Highlights
+## 🚀 Features
 
-- **High-Performance Development:** Achieved a Lighthouse performance score of **96**, ensuring optimized load times, responsiveness, and a smooth user experience.
-- **Innovative Animations:** Integrated dynamic animations using **Lottie**, **GSAP**, and **Three.js** for an immersive and engaging user experience.
-- **Modern Tech Stack:** Employed **Next.js** and **TailwindCSS** to develop a responsive and scalable website architecture with a sleek, modern design.
+- ⚡ **High Performance** – Achieved a Lighthouse performance score of 96+ with optimized responsiveness and load times.
+- 🎨 **Immersive Animations** – Leveraged **Lottie**, **GSAP**, and **Three.js** for smooth, engaging animations and 3D interactions.
+- 📱 **Responsive Design** – Fully optimized for all screen sizes, from desktop to mobile.
+- 🧩 **Scalable Architecture** – Built with modular components for future scalability and ease of maintenance.
+- 🌐 **SEO & Accessibility Focused** – Structured for web best practices, ensuring discoverability and usability.
 
-## Technologies Used
+## 🧰 Tech Stack
 
-- **Next.js** - For server-side rendering and seamless page navigation.
-- **TailwindCSS** - For utility-first, responsive styling.
-- **Lottie** - For lightweight, scalable animations.
-- **GSAP** - For advanced, high-performance animations.
-- **Three.js** - For 3D graphics and interactive visual elements.
+| Category            | Technologies                   |
+|---------------------|--------------------------------|
+| **Framework**        | Next.js (React)                |
+| **Styling**          | TailwindCSS                    |
+| **Animation**        | Lottie, GSAP, Three.js         |
+| **Performance Tools**| Lighthouse                     |
+| **Hosting**          | Vercel                         |
 
-## Features
+## 📸 Screenshots
 
-- **Optimized Performance:** Every aspect of the site is optimized to ensure minimal load times and excellent responsiveness.
-- **Engaging User Experience:** Animated elements bring interactivity and life to the website, enhancing user engagement.
-- **Responsive Design:** Built to look great on all devices, with a design that adapts seamlessly from desktops to mobile screens.
+<!-- Optional: Add visual examples here -->
+<!-- ![Screenshot 1](./screenshots/skinstric-home.png) -->
+
+## 📦 Installation
+
+To run the project locally:
+
+```bash
+git clone https://github.com/your-username/skinstric-ai.git
+cd skinstric-ai
+npm install
+npm run dev
