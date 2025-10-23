@@ -30,7 +30,9 @@
 To run the project locally:
 
 ```bash
-git clone https://github.com/your-username/skinstric-ai.git
-cd skinstric-ai
+git clone https://github.com/pharaohmak/SkinstricAI.git
+
+cd SkinstricAI
 npm install
+npm run dev
 npm run dev
