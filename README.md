@@ -23,7 +23,7 @@
 ## 📸 Screenshots
 
 <!-- Optional: Add visual examples here -->
-<!-- ![Screenshot 1](./screenshots/skinstric-home.png) -->
+![Screenshot 1](./Skinstric.png)
 
 ## 📦 Installation
 
